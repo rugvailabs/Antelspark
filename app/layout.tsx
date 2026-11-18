@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { IBM_Plex_Mono, Instrument_Sans, Inter } from "next/font/google";
 
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
@@ -7,26 +7,22 @@ import { siteConfig } from "@/lib/site";
 
 import "./globals.css";
 
-const clashDisplay = localFont({
-  src: "../public/fonts/ClashDisplay-Variable.woff2",
-  variable: "--font-clash-display",
-  weight: "200 700",
+const instrumentSans = Instrument_Sans({
+  subsets: ["latin"],
+  variable: "--font-instrument-sans",
   display: "swap",
 });
 
-const generalSans = localFont({
-  src: "../public/fonts/GeneralSans-Variable.woff2",
-  variable: "--font-general-sans",
-  weight: "200 700",
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
   display: "swap",
 });
 
-const jetbrainsMono = localFont({
-  src: [
-    { path: "../public/fonts/JetBrainsMono-Regular.woff2", weight: "400" },
-    { path: "../public/fonts/JetBrainsMono-Medium.woff2", weight: "500" },
-  ],
-  variable: "--font-jetbrains-mono",
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-ibm-plex-mono",
   display: "swap",
 });
 
@@ -52,7 +48,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${clashDisplay.variable} ${generalSans.variable} ${jetbrainsMono.variable}`}
+      className={`${instrumentSans.variable} ${inter.variable} ${ibmPlexMono.variable}`}
     >
       <body>
         <Header />
