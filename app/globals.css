@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/*  Antelspark — Design tokens                                         */
+/*  Editorial light system: warm ivory · white surfaces ·              */
+/*  charcoal type · cobalt blue · restrained terracotta                */
+/* ------------------------------------------------------------------ */
+
+@theme {
+  /* -- Surfaces ----------------------------------------------------- */
+  --color-ivory: #f7f5f0; /* page background                          */
+  --color-cream: #efebe2; /* subdued fills, image placeholders        */
+
+  /* -- Type --------------------------------------------------------- */
+  --color-ink: #20242c; /* charcoal headings & body                 */
+  --color-ink-soft: #5b616c; /* muted copy                               */
+  --color-ink-faint: #8b909a; /* captions, meta                           */
+
+  /* -- Brand accents ------------------------------------------------ */
+  --color-cobalt: #2457d6; /* primary accent                           */
+  --color-cobalt-deep: #1c45ad; /* hover / pressed                          */
+  --color-cobalt-wash: #e9eefb; /* pale cobalt tint for chips & bands       */
+  --color-terracotta: #c05b3c; /* restrained warm accent                   */
+  --color-terracotta-wash: #f6e8e1;
+  --color-navy: #0f2142; /* deep navy for feature panels & CTA bands */
+  --color-navy-deep: #0a1730;
+
+  /* -- Hairlines ----------------------------------------------------- */
+  --color-line: rgb(32 36 44 / 0.12);
+  --color-line-strong: rgb(32 36 44 / 0.24);
+  --color-line-light: rgb(255 255 255 / 0.25); /* on cobalt / photos  */
+
+  /* -- Motion -------------------------------------------------------- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* -- Type scale (fluid display sizes) ------------------------------ */
+  --text-display-xl: clamp(2.75rem, 1.5rem + 5.2vw, 5.75rem);
+  --text-display-xl--line-height: 1.02;
+  --text-display-xl--letter-spacing: -0.02em;
+  --text-display-lg: clamp(2.25rem, 1.3rem + 3.6vw, 4.25rem);
+  --text-display-lg--line-height: 1.05;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-md: clamp(1.75rem, 1.2rem + 2.2vw, 3rem);
+  --text-display-md--line-height: 1.1;
+  --text-display-md--letter-spacing: -0.015em;
+  --text-display-sm: clamp(1.375rem, 1.1rem + 1.1vw, 2rem);
+  --text-display-sm--line-height: 1.2;
+  --text-display-sm--letter-spacing: -0.01em;
+}
+
+/* Font tokens reference the CSS variables set by next/font in layout.tsx */
+@theme inline {
+  --font-display: var(--font-clash-display), var(--font-general-sans),
+    ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-general-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "Cascadia Mono",
+    monospace;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Base                                                               */
+/* ------------------------------------------------------------------ */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-ivory font-sans text-ink;
+  }
+
+  ::selection {
+    background-color: var(--color-cobalt);
+    color: #ffffff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-cobalt);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Shared utilities                                                   */
+/* ------------------------------------------------------------------ */
+
+/* Monospace eyebrow label, e.g. "SELECTED WORK" */
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Standard vertical rhythm for page sections */
+@utility section-pad {
+  padding-block: clamp(4.5rem, 3rem + 6vw, 8.5rem);
+}
+
+/* Infinite horizontal marquee. The track holds two copies of its
+   content; -50% loops seamlessly. */
+@utility marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-duration, 42s) linear infinite;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Fade the clipped edges of full-bleed horizontal strips */
+@utility mask-fade-x {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
