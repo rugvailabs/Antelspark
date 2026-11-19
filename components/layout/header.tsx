@@ -58,6 +58,14 @@ export function Header() {
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    const closeDesktopMenu = () => {
+      if (window.innerWidth >= 1024) setMenuOpen(false);
+    };
+    window.addEventListener("resize", closeDesktopMenu);
+    return () => window.removeEventListener("resize", closeDesktopMenu);
+  }, []);
+
   // Escape closes the mega menu and returns focus to its trigger.
   useEffect(() => {
     if (!megaOpen) return;
@@ -199,7 +207,10 @@ export function Header() {
         {/* Mobile menu toggle */}
         <button
           type="button"
-          onClick={() => setMenuOpen((open) => !open)}
+          onClick={() => {
+            setMegaOpen(false);
+            setMenuOpen((open) => !open);
+          }}
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -307,9 +318,9 @@ export function Header() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed inset-0 z-40 flex flex-col bg-ivory lg:hidden"
+            className="absolute inset-x-0 top-full z-40 flex h-[calc(100dvh-4rem)] flex-col overflow-hidden bg-ivory md:h-[calc(100dvh-5rem)] lg:hidden"
           >
-            <Container className="flex flex-1 flex-col overflow-y-auto pt-24 pb-10">
+            <Container className="flex flex-1 flex-col overflow-y-auto overscroll-contain pt-6 pb-8 sm:pt-8">
               <nav aria-label="Mobile" className="flex flex-col">
                 {/* Services accordion */}
                 <div className="border-b border-line">
